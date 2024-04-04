@@ -135,25 +135,25 @@ int main() {
 		green = (LowerGreen+UpperGreen)/256;
 		blue = (LowerBlue+UpperBlue)/256;
 		
-		if(0 < blue < 256)
+		if(UpperBlue < 256)
 		{
 			PORTD = 0b11111110; //turn LED on
 		}
-		if(0 < red < 256)
+		if(LowerBlue < 256)
 		{
 			PORTD = 0b11111110; //turn LED on
 		}
-		if(0 < green < 256)
+		if(LowerRed < 256)
 		{
 			PORTD = 0b11111110; //turn LED on
 		}
-		if(0 < clear < 256)
+		if(UpperRed < 256)
 		{
 			PORTD = 0b11111110; //turn LED on
 		}
 		else
 		{
-			PORTD = 0b11111111; // led off,sad
+			PORTD = 0b11111110; // led off,sad
 		}
 		
 		
