@@ -37,8 +37,8 @@ int main() {
 	int green = 0;
 	int blue = 0;
 	
-	DDRD = 0b00000001;
-	PORTD = 0b00000001;
+	DDRD = 0b00000000;
+	PORTD = 0b00000000;
 	
 	
 	// I2C (TWI) Setup
@@ -66,6 +66,8 @@ int main() {
 		i2c_read_from_address(0x14); // Address 0x14: Clear Data Low Byte
 		LowerClear = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
+		
+		PORTD = 0b00000001; // led off (so is it working up to here?)
 		
 		//2: High Clear
 		i2c_start(); 
@@ -135,7 +137,10 @@ int main() {
 		green = (LowerGreen+UpperGreen)/256;
 		blue = (LowerBlue+UpperBlue)/256;
 		
-		if(UpperBlue < 256)
+		PORTD = 0b00000010; //turn LED 2 on
+		
+		
+		/*if(UpperBlue < 256)
 		{
 			PORTD = 0b11111110; //turn LED on
 		}
@@ -155,7 +160,7 @@ int main() {
 		{
 			PORTD = 0b11111110; // led off,sad
 		}
-		
+		*/
 		
 		
 	}
