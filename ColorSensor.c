@@ -37,6 +37,9 @@ int main() {
 	int green = 0;
 	int blue = 0;
 	
+	DDRD = 0b00000001;
+	PORTD = 0b00000001;
+	
 	
 	// I2C (TWI) Setup
 	//If needed, turn on TWI power: PRR = PRR & 0b01111111; // Ensure that TWI is powered on (PRTWI = 0)
@@ -131,6 +134,28 @@ int main() {
 		red = (LowerRed+UpperRed)/256;
 		green = (LowerGreen+UpperGreen)/256;
 		blue = (LowerBlue+UpperBlue)/256;
+		
+		if(0 < blue < 256)
+		{
+			PORTD = 0b11111110; //turn LED on
+		}
+		if(0 < red < 256)
+		{
+			PORTD = 0b11111110; //turn LED on
+		}
+		if(0 < green < 256)
+		{
+			PORTD = 0b11111110; //turn LED on
+		}
+		if(0 < clear < 256)
+		{
+			PORTD = 0b11111110; //turn LED on
+		}
+		else
+		{
+			PORTD = 0b11111111; // led off,sad
+		}
+		
 		
 		
 	}
