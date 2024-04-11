@@ -119,20 +119,22 @@ int main()
 		
 		
 		//converting data into single 16-bit values
-		unsigned short clear = (UpperClear << 8) | LowerClear;
-		unsigned short red = (UpperRed << 8) | LowerRed;
-		unsigned short green = (UpperGreen << 8) | LowerGreen;
-		unsigned short blue = (UpperBlue << 8) | LowerBlue;	
+		unsigned short clear = (UpperClear*256 + LowerClear;
+		unsigned short red = UpperRed*256 + LowerRed;
+		unsigned short green = UpperGreen*256 + LowerGreen;
+		unsigned short blue = UpperBlue*256 + LowerBlue;	
 		
 		
 		if(red < 65535)
 		{
 			PORTD = 0b11111110; //turn LED 0 on
 		}
+		
 		if(green < 65535)
 		{
 			PORTD = 0b11111101; //turn LED 1 on
 		}
+		
 		if(blue < 65535)
 		{
 			PORTD = 0b11111011; //turn LED 2 on
@@ -147,7 +149,6 @@ int main()
 		PORTD = PORTD | 0b00001000; //checker led off
 		wait(1000);
 		
-		return 0;
 	}
 	
 }
