@@ -37,9 +37,10 @@ int main() {
 	int green = 0;
 	int blue = 0;
 	
-	DDRD = 0b00000111; //Pins 0,1,2 set as output for LED's (checking red, green, blue)
-	PORTD = 0b00000111; //setting output of Port D high to turn off LEDs (wired active low)
+	DDRD = 0b00001111; //Pins 0,1,2 set as output for LED's (checking red, green, blue)
+	PORTD = 0b00001111; //setting output of Port D high to turn off LEDs (wired active low)
 						//Red = Pin 0, Green = Pin 1, Blue = Pin 2
+						//Checker = Pin 3
 	
 	// I2C (TWI) Setup
 	//If needed, turn on TWI power: PRR = PRR & 0b01111111; // Ensure that TWI is powered on (PRTWI = 0)
@@ -152,12 +153,11 @@ int main() {
 		//{
 		//	PORTD = 0b11111110; //turn LED 3 on?
 		//}
-		else
-		{
-			PORTD = 0b11111111; // leds off
-		}
-		
-		wait(1000);
+		wait(1500);
+		PORTD = PORTD & 0b11110111; //checker led on
+		wait(1500);
+		PORTD = PORTD | 0b00001000; //checker led off
+		wait(1500);
 		
 	}
 	
