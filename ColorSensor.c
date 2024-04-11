@@ -72,7 +72,6 @@ int main()
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
 		
-		
 		//3: Low Green/High Green
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x18);  // Address 0x18: Green Data Low Byte
