@@ -100,19 +100,19 @@ int main()
 		
 		
 		//RED (R > 175, G < 70, B < 70)
-		if(red > 38400 && green < 17920 && blue < 17920)
+		if(red > 44800 && green < 17920 && blue < 17920)
 		{
 			PORTD = 0b11111110; //turn LED 0 on
 			wait(3000);
 		}
 		//ORANGE (R > 175, 70 < G < 145, B < 70)
-		if(red > 38400 && green > 17920 && green < 37120 && blue < 17920)
+		if(red > 44800 && green > 17920 && green < 37120 && blue < 17920)
 		{
 			PORTD = 0b11111101; //turn LED 1 on
 			wait(3000);
 		}
 		//YELLOW (R > 175, G > 145, B < 70)
-		if(red > 38400 && green > 37120 && blue < 17920)
+		if(red > 44800 && green > 37120 && blue < 17920)
 		{
 			PORTD = 0b11111011; //turn LED 2 on
 			wait(3000);
