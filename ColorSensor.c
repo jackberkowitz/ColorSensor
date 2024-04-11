@@ -131,10 +131,12 @@ int main() {
 		UpperBlue = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
-		clear = (LowerClear+UpperClear)/256;
-		red = (LowerRed+UpperRed)/256;
-		green = (LowerGreen+UpperGreen)/256;
-		blue = (LowerBlue+UpperBlue)/256;
+		
+			
+		clear = UpperClear*16 + LowerClear/16;
+		red = UpperRed*16 + LowerRed/16;
+		green = UpperGreen*16 + LowerGreen/16;
+		blue = UpperBlue*16 + LowerBlue/16;
 		
 		
 		if(red < 256)
@@ -153,11 +155,11 @@ int main() {
 		//{
 		//	PORTD = 0b11111110; //turn LED 3 on?
 		//}
-		wait(1500);
+		wait(1000);
 		PORTD = PORTD & 0b11110111; //checker led on
-		wait(1500);
+		wait(1000);
 		PORTD = PORTD | 0b00001000; //checker led off
-		wait(1500);
+		wait(1000);
 		
 	}
 	
