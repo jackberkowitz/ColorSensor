@@ -58,8 +58,19 @@ int main()
 		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
-		unsigned int dummy_red = UpperRed*256 + LowerRed;
+		int dummy_red = UpperRed*16 + LowerRed/16;
 		int red = dummy_red;
+		
+		/*
+		PORTD = 0b1110111; //turn LED 4 or 5 on
+		wait(1000);
+		if(red > 150)
+		{
+			PORTD = 0b11111110; //turn LED 0 on
+			wait(3000);
+		}
+		wait(1000);
+		*/
 
 		//3: Low Green/High Green
 		i2c_start();
@@ -76,7 +87,7 @@ int main()
 		unsigned char UpperGreen = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
-		unsigned int dummy_green = UpperGreen*256 + LowerGreen;
+		int dummy_green = UpperGreen*16 + LowerGreen/16;
 		int green = dummy_green;
 		
 		//4: Low Blue/High Blue
@@ -94,9 +105,8 @@ int main()
 		unsigned char UpperBlue = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
-		unsigned int dummy_blue = UpperBlue*256 + LowerBlue;	
+		int dummy_blue = UpperBlue*16 + LowerBlue/16;	
 		int blue = dummy_blue;
-		
 		
 		
 		//RED (R > 175, G < 70, B < 70)
