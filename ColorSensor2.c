@@ -87,8 +87,9 @@ int main()
 		if(red < 65535)
 		{
 			PORTD = 0b11111110; //turn LED 0 on
-			unsigned int check_red = red;
 		}	
+		unsigned int check_red = red;
+		wait(500);
 
 		//3: Low Green/High Green
 		i2c_start();
@@ -108,9 +109,10 @@ int main()
 		unsigned int green = UpperGreen*256 + LowerGreen;
 		if(green < 65535)
 		{
-			PORTD = 0b11111101; //turn LED 1 on
-			unsigned int check_green = green;
+			PORTD = 0b11111101; //turn LED 1 on	
 		}
+		unsigned int check_green = green;
+		wait(500);
 		
 		
 		//4: Low Blue/High Blue
@@ -132,8 +134,9 @@ int main()
 		if(blue < 65535)
 		{
 			PORTD = 0b11111011; //turn LED 2 on
-			unsigned int check_blue = blue;
 		}
+		unsigned int check_blue = blue;
+		wait(500);
 		
 		wait(1000);
 		PORTD = PORTD & 0b11110111; //checker led on
@@ -142,9 +145,9 @@ int main()
 		wait(1000);
 		
 		wait(2000);
-		if(check_red < 65535 && check_green < 65535)
+		if(check_red < 65535 && check_green < 65535 && check_green < 65535)
 		{
-			PORTD = 0b11111110; //turn LED 0 on
+			PORTD = 0b11111100; //turn LED 0 & 1 on
 		}
 		wait(2000);
 	}
