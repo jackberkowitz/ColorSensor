@@ -81,6 +81,14 @@ int main()
 		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
+		unsigned short red = UpperRed*256 + LowerRed;
+		if(red < 65535)
+		{
+			PORTD = 0b11111110; //turn LED 0 on
+		}
+		
+		
+		
 		//5: Low Green
 		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
@@ -119,16 +127,13 @@ int main()
 		
 		
 		//converting data into single 16-bit values
-		unsigned short clear = (UpperClear*256 + LowerClear;
-		unsigned short red = UpperRed*256 + LowerRed;
+		unsigned short clear = UpperClear*256 + LowerClear;
+		
 		unsigned short green = UpperGreen*256 + LowerGreen;
 		unsigned short blue = UpperBlue*256 + LowerBlue;	
 		
 		
-		if(red < 65535)
-		{
-			PORTD = 0b11111110; //turn LED 0 on
-		}
+		
 		
 		if(green < 65535)
 		{
