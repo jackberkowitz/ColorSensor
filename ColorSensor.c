@@ -70,50 +70,35 @@ int main()
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char LowerRed = i2c_read_data(0);  // read with NO_ACK
-		
+		i2c_stop();
 		
 		//4: High Red
-		
+		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x17);  // Address 0x17: Red Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
+		i2c_stop();
 		
-		
-		
-		
+
 		//5: Low Green
-		
+		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x18);  // Address 0x18: Green Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char LowerGreen = i2c_read_data(0);  // read with NO_ACK
-		
+		i2c_stop();
 		
 		//6: High Green
-		 
+		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x19);  // Address 0x19: Green Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperGreen = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
-		
-		
-		unsigned int red = UpperRed*256 + LowerRed;
-		unsigned int green = UpperGreen*256 + LowerGreen;
-		
-		if(red < 65535)
-		{
-			PORTD = 0b11111110; //turn LED 0 on
-		}		
-		if(green < 65535)
-		{
-			PORTD = 0b11111101; //turn LED 1 on
-		}
-		wait(1000);
 		
 		//7: Low Blue
 		i2c_start(); 
@@ -136,11 +121,19 @@ int main()
 		
 		//converting data into single 16-bit values
 		unsigned int clear = UpperClear*256 + LowerClear;
-		
+		unsigned int red = UpperRed*256 + LowerRed;
+		unsigned int green = UpperGreen*256 + LowerGreen;
 		unsigned int blue = UpperBlue*256 + LowerBlue;	
 		
 		
-		
+		if(red < 65535)
+		{
+			PORTD = 0b11111110; //turn LED 0 on
+		}		
+		if(green < 65535)
+		{
+			PORTD = 0b11111101; //turn LED 1 on
+		}
 		
 		if(blue < 65535)
 		{
