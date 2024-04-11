@@ -45,66 +45,65 @@ int main()
 	{	
 		//I2C Read data as Main. Reading from RGB Color Sensor
 		
-		//1: Low Clear/High Clear
+		//1: Low Clear
 		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x14);  //Address 0x14: Clear Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char LowerClear = i2c_read_data(0);  // read with NO_ACK
+		i2c_stop();
 		
+		//2: High Clear
+		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x15);  // Address 0x15: Clear Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperClear = i2c_read_data(0);  // read with NO_ACK
+		i2c_stop();
 		
-		//2: Low Red/High Red
+		//3: Low Red/High Red
+		i2c_start(); 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x16);  // Address 0x16: Red Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char LowerRed = i2c_read_data(0);  // read with NO_ACK
-
+		
+		
+		//4: High Red
+		
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x17);  // Address 0x17: Red Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
 		
-		//3: Low Green/High Green
+		
+		
+		
+		//5: Low Green
+		
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x18);  // Address 0x18: Green Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char LowerGreen = i2c_read_data(0);  // read with NO_ACK
 		
+		
+		//6: High Green
+		 
 		i2c_write_to_address(0x29); //Address the RGB Color Sensor
 		i2c_write_data(0x19);  // Address 0x19: Green Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
 		unsigned char UpperGreen = i2c_read_data(0);  // read with NO_ACK
-		
-		//4: Low Blue/High Blue
-		i2c_write_to_address(0x29); //Address the RGB Color Sensor
-		i2c_write_data(0x1A);  // Address 0x1A: Blue Data Low Byte
-		i2c_repeated_start();
-		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		unsigned char LowerBlue = i2c_read_data(0);  // read with NO_ACK
-	
-		i2c_write_to_address(0x29); //Address the RGB Color Sensor
-		i2c_write_data(0x1B);  // Address 0x1B: Blue Data High Byte
-		i2c_repeated_start();
-		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		unsigned char UpperBlue = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
-		//converting data into single 16-bit values
-		unsigned short clear = UpperClear*256 + LowerClear;
-		unsigned short red = UpperRed*256 + LowerRed;
-		unsigned short green = UpperGreen*256 + LowerGreen;
-		unsigned short blue = UpperBlue*256 + LowerBlue;	
 		
+		unsigned int red = UpperRed*256 + LowerRed;
+		unsigned int green = UpperGreen*256 + LowerGreen;
 		
 		if(red < 65535)
 		{
@@ -114,6 +113,34 @@ int main()
 		{
 			PORTD = 0b11111101; //turn LED 1 on
 		}
+		wait(1000);
+		
+		//7: Low Blue
+		i2c_start(); 
+		i2c_write_to_address(0x29); //Address the RGB Color Sensor
+		i2c_write_data(0x1A);  // Address 0x1A: Blue Data Low Byte
+		i2c_repeated_start();
+		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
+		unsigned char LowerBlue = i2c_read_data(0);  // read with NO_ACK
+		i2c_stop();
+		
+		//8: High Blue
+		i2c_start(); 
+		i2c_write_to_address(0x29); //Address the RGB Color Sensor
+		i2c_write_data(0x1B);  // Address 0x1B: Blue Data High Byte
+		i2c_repeated_start();
+		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
+		unsigned char UpperBlue = i2c_read_data(0);  // read with NO_ACK
+		i2c_stop();
+		
+		
+		//converting data into single 16-bit values
+		unsigned int clear = UpperClear*256 + LowerClear;
+		
+		unsigned int blue = UpperBlue*256 + LowerBlue;	
+		
+		
+		
 		
 		if(blue < 65535)
 		{
