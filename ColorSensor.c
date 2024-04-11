@@ -7,6 +7,7 @@ The program sends an arbitrary data byte to a Secondary device on the bus, then 
  */
 
 #include <avr/io.h>
+#include <iostream>
 
 /** Function Declarations ***/
 void i2c_init(void);
@@ -20,23 +21,9 @@ unsigned char i2c_read_data(unsigned char ack);
 
 void wait(volatile int);
 
-int main() {
-	
-	unsigned char UpperClear;
-	unsigned char LowerClear;
-	unsigned char UpperRed;
-	unsigned char LowerRed;
-	unsigned char UpperGreen;
-	unsigned char LowerGreen;
-	unsigned char UpperBlue;
-	unsigned char LowerBlue;
-	unsigned char data;
-	
-	int clear = 0;
-	int red = 0;
-	int green = 0;
-	int blue = 0;
-	
+int main() 
+{
+			
 	DDRD = 0b00001111; //Pins 0,1,2 set as output for LED's (checking red, green, blue)
 	PORTD = 0b00001111; //setting output of Port D high to turn off LEDs (wired active low)
 						//Red = Pin 0, Green = Pin 1, Blue = Pin 2
@@ -65,7 +52,7 @@ int main() {
 		i2c_write_data(0x14);  //Address 0x14: Clear Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		LowerClear = i2c_read_data(0);  // read with NO_ACK
+		unsigned char LowerClear = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//2: High Clear
@@ -74,7 +61,7 @@ int main() {
 		i2c_write_data(0x15);  // Address 0x15: Clear Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		UpperClear = i2c_read_data(0);  // read with NO_ACK
+		unsigned char UpperClear = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//3: Low Red
@@ -83,7 +70,7 @@ int main() {
 		i2c_write_data(0x16);  // Address 0x16: Red Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		LowerRed = i2c_read_data(0);  // read with NO_ACK
+		unsigned char LowerRed = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//4: High Red
@@ -92,7 +79,7 @@ int main() {
 		i2c_write_data(0x17);  // Address 0x17: Red Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		UpperRed = i2c_read_data(0);  // read with NO_ACK
+		unsigned char UpperRed = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//5: Low Green
@@ -101,7 +88,7 @@ int main() {
 		i2c_write_data(0x18);  // Address 0x18: Green Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		LowerGreen = i2c_read_data(0);  // read with NO_ACK
+		unsigned char LowerGreen = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//6: High Green
@@ -110,7 +97,7 @@ int main() {
 		i2c_write_data(0x19);  // Address 0x19: Green Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		UpperGreen = i2c_read_data(0);  // read with NO_ACK
+		unsigned char UpperGreen = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//7: Low Blue
@@ -119,7 +106,7 @@ int main() {
 		i2c_write_data(0x1A);  // Address 0x1A: Blue Data Low Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		LowerBlue = i2c_read_data(0);  // read with NO_ACK
+		unsigned char LowerBlue = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		//8: High Blue
@@ -128,26 +115,33 @@ int main() {
 		i2c_write_data(0x1B);  // Address 0x1B: Blue Data High Byte
 		i2c_repeated_start();
 		i2c_read_from_address(0x29); //Address the RGB Color Sensor Again
-		UpperBlue = i2c_read_data(0);  // read with NO_ACK
+		unsigned char UpperBlue = i2c_read_data(0);  // read with NO_ACK
 		i2c_stop();
 		
 		
-			
-		clear = UpperClear*16 + LowerClear/16;
-		red = UpperRed*16 + LowerRed/16;
-		green = UpperGreen*16 + LowerGreen/16;
-		blue = UpperBlue*16 + LowerBlue/16;
+		//converting data into single 16-bit values
+		unsigned short clear_c = (UpperClear << 8) | LowerClear;
+		unsigned short red_c = (UpperRed << 8) | LowerRed;
+		unsigned short green_c = (UpperGreen << 8) | LowerGreen;
+		unsigned short blue_c = (UpperBlue << 8) | LowerBlue;
+		
+		//interpreting color values
+		unsigned int clear = static_cast<unsigned int>(clear_c);
+		unsigned int red = static_cast<unsigned int>(red_c);
+		unsigned int green = static_cast<unsigned int>(green_c);
+		unsigned int blue = static_cast<unsigned int>(blue_c);
 		
 		
-		if(red < 256)
+		
+		if(red < 65535)
 		{
 			PORTD = 0b11111110; //turn LED 0 on
 		}
-		if(green < 256)
+		if(green < 65535)
 		{
 			PORTD = 0b11111101; //turn LED 1 on
 		}
-		if(blue < 256)
+		if(blue < 65535)
 		{
 			PORTD = 0b11111011; //turn LED 2 on
 		}
@@ -161,6 +155,7 @@ int main() {
 		PORTD = PORTD | 0b00001000; //checker led off
 		wait(1000);
 		
+		return 0;
 	}
 	
 }
