@@ -150,11 +150,11 @@ int main() {
 		}
 		//if(clear < 256)
 		//{
-		//	PORTD = 0b11111110; //turn LED on
+		//	PORTD = 0b11111110; //turn LED 3 on?
 		//}
 		else
 		{
-			PORTD = 0b11111111; // led off
+			PORTD = 0b11111111; // leds off
 		}
 		
 		wait(1000);
