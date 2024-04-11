@@ -7,7 +7,6 @@ The program sends an arbitrary data byte to a Secondary device on the bus, then 
  */
 
 #include <avr/io.h>
-#include <iostream>
 
 /** Function Declarations ***/
 void i2c_init(void);
@@ -120,17 +119,10 @@ int main()
 		
 		
 		//converting data into single 16-bit values
-		unsigned short clear_c = (UpperClear << 8) | LowerClear;
-		unsigned short red_c = (UpperRed << 8) | LowerRed;
-		unsigned short green_c = (UpperGreen << 8) | LowerGreen;
-		unsigned short blue_c = (UpperBlue << 8) | LowerBlue;
-		
-		//interpreting color values
-		unsigned int clear = static_cast<unsigned int>(clear_c);
-		unsigned int red = static_cast<unsigned int>(red_c);
-		unsigned int green = static_cast<unsigned int>(green_c);
-		unsigned int blue = static_cast<unsigned int>(blue_c);
-		
+		unsigned short clear = (UpperClear << 8) | LowerClear;
+		unsigned short red = (UpperRed << 8) | LowerRed;
+		unsigned short green = (UpperGreen << 8) | LowerGreen;
+		unsigned short blue = (UpperBlue << 8) | LowerBlue;	
 		
 		
 		if(red < 65535)
